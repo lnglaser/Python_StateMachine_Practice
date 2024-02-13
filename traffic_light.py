@@ -1,3 +1,4 @@
+import random
 from statemachine import StateMachine, State
 
 
@@ -23,11 +24,16 @@ def on_exit_red(self):
 
 
 sm = TrafficLightMachine()
-print(sm.current_state.id)
-sm.send("cycle")
-print(sm.current_state.id)
-sm.send("cycle")
-print(sm.current_state.id)
-sm.send("cycle")
-print(sm.current_state.id)
-on_exit_red(self=any)
+randomizer = random.randint(1, 3)
+
+print(sm.send("cycle", message="Fart sound"))
+
+for i in range(randomizer):
+    sm.send("cycle")
+    print(sm.current_state.id)
+
+
+if sm.current_state.id == "green":
+    on_exit_red(self=any)
+elif sm.current_state.id == "red":
+    on_enter_red(self=any)
