@@ -1,5 +1,6 @@
 from statemachine import StateMachine, State
 
+
 class OrderControl(StateMachine):
     waiting_for_payment = State(initial=True)
     processing = State()
@@ -7,10 +8,9 @@ class OrderControl(StateMachine):
     completed = State(final=True)
 
     add_to_order = waiting_for_payment.to(waiting_for_payment)
-    receive_payment = (
-        waiting_for_payment.to(processing, cond="payments_enough") 
-        | waiting_for_payment.to(waiting_for_payment, unless="payments_enough")
-    )
+    receive_payment = waiting_for_payment.to(
+        processing, cond="payments_enough"
+    ) | waiting_for_payment.to(waiting_for_payment, unless="payments_enough")
     process_order = processing.to(shipping, cond="payment_received")
     ship_order = shipping.to(completed)
 
@@ -40,9 +40,14 @@ class OrderControl(StateMachine):
 
 control = OrderControl()
 control.add_to_order(3)
+control.add_to_order(7)
 control.receive_payment(4)
-
+control.receive_payment(6)
 print(control.current_state.name)
 print(control.current_state.id)
 print(control.order_total)
 print(control.payments)
+print(control.process_order())
+print(control.ship_order())
+print(control.payment_received)
+print(control.order_total)
