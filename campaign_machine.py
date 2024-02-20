@@ -6,6 +6,11 @@ class CampaignMachine(StateMachine):
     producing = State("Being produced", value=2)
     closed = State("Closed", final=True)
 
-    add_job = draft.to.itself() | producing.to.itself() | closed.to(producing)
+    add_job = draft.to.itself() | producing.to.itself()
     produce = draft.to(producing)
     deliver = producing.to(closed)
+
+
+machine = CampaignMachine()
+
+print(machine.final_states)
