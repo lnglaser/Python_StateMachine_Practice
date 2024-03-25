@@ -1,4 +1,5 @@
 from statemachine import StateMachine, State
+import inspect
 
 
 class LightBulb(StateMachine):
@@ -18,5 +19,6 @@ print(bulb.current_state)
 a = [s.id for s in bulb.states]
 print(a)
 
-b = [s.id for s in bulb.transitions]
+b = [s for s in bulb.transitions]
+# b = [s for s in inspect.getmembers(LightBulb)]
 print(b)
